@@ -1,11 +1,14 @@
 package com.example.CarRental;
 
+
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
+
+
 
 public class CarRentalClient {
 	
@@ -15,7 +18,7 @@ public class CarRentalClient {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		
-		HttpEntity<Car> request = new HttpEntity<>(new Car("44QQ66", "Peugeot", 12));
+		HttpEntity<Car> request = new HttpEntity<>(new Car("44QQ66", "Peugeot" , 12, 5));
 		restTemplate.postForObject("http://localhost:8080/cars", request, Car.class);
 		
         List cars = restTemplate.getForObject("http://localhost:8080/cars", List.class);

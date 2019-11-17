@@ -3,10 +3,16 @@ package com.example.CarRental;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 
 @RestController
 public class CarRentalService {
@@ -14,8 +20,8 @@ public class CarRentalService {
 	private List<Car> cars = new ArrayList<Car>();
 	
 	public CarRentalService() {
-		cars.add(new Car("11AA22", "Ferrari", 1000));
-		cars.add(new Car("33BB44", "Porshe", 2222));
+		cars.add(new Car("11AA22", "Ferrari", 1000, 5));
+		cars.add(new Car("33BB44", "Porshe", 2222, 2));
 	}
 	
 	@RequestMapping(value="/cars", method=RequestMethod.GET) 
@@ -30,16 +36,56 @@ public class CarRentalService {
 		System.out.println(car);
 		cars.add(car);
 	}
-
+	
+	
+	
 	@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Car getCar(@PathVariable(value = "plateNumber") String plateNumber){
-		for(Car car: cars){
-			if(car.getPlateNumber().equals(plateNumber)){
-				return car;
+	@ResponseBody
+	public Car aCar(@PathVariable("plateNumber") String plateNumber) throws Exception{
+		for(Car Car : cars) {
+			if(Car.getPlateNumber().contentEquals(plateNumber)) {
+				return Car;
 			}
 		}
 		return null;
 	}
-
+	
+	/*@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void getBack(@PathVariable("plateNumber") String plateNumber) throws Exception{
+	}
+	*/
+	
+	/*@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	public void rent(@PathVariable("plateNumber") String plateNumber) throws Exception{
+	}*/
+	
+	@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
+	public void rentAndGetBack(@PathVariable("plateNumber") String plateNumber,
+	@RequestParam(value="rent", required = true)boolean rent,
+	@RequestBody(required = false) Dates dates){
+		
+		for(Car car : cars) {
+			if(car.getPlateNumber().equals(plateNumber)) {
+				if (rent == true) {
+						//System.out.println();
+						car.setRent(true);
+						car.setDateDebut(dates.getBegin());
+						car.setDateFin(dates.getEnd());
+					}
+				else if (rent == false) {
+					car.setRent(false);
+					car.setDateDebut(null);
+					car.setDateFin(null);
+				}
+			}
+		}
+	}
 }
+	/*@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
+	public void rent(@PathVariable("plateNumber") String plateNumber, @RequestParam(value="rent",
+	required = true)boolean rent, @RequestBody Dates dates){
+	}*/
+
