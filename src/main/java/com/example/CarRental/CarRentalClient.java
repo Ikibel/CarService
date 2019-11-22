@@ -18,10 +18,10 @@ public class CarRentalClient {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		
-		HttpEntity<Car> request = new HttpEntity<>(new Car("44QQ66", "Peugeot" , 12, 5));
+		HttpEntity<Car> request = new HttpEntity<>(new Car("44QQ66", "Peugeot" , 1200, 5));
 		restTemplate.postForObject("http://localhost:8080/cars", request, Car.class);
 		
-        List cars = restTemplate.getForObject("http://localhost:8080/cars", List.class);
+        List cars = restTemplate.getForObject("http://localhost:8000/cars", List.class);
         log.info(cars.toString());
         
 	}

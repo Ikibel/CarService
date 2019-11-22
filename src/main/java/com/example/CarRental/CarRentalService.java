@@ -43,6 +43,7 @@ public class CarRentalService {
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public Car aCar(@PathVariable("plateNumber") String plateNumber) throws Exception{
+		System.out.println(plateNumber);
 		for(Car Car : cars) {
 			if(Car.getPlateNumber().contentEquals(plateNumber)) {
 				return Car;
@@ -51,16 +52,6 @@ public class CarRentalService {
 		return null;
 	}
 	
-	/*@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.OK)
-	public void getBack(@PathVariable("plateNumber") String plateNumber) throws Exception{
-	}
-	*/
-	
-	/*@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void rent(@PathVariable("plateNumber") String plateNumber) throws Exception{
-	}*/
 	
 	@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
 	public void rentAndGetBack(@PathVariable("plateNumber") String plateNumber,
@@ -70,7 +61,7 @@ public class CarRentalService {
 		for(Car car : cars) {
 			if(car.getPlateNumber().equals(plateNumber)) {
 				if (rent == true) {
-						//System.out.println();
+						System.out.println();
 						car.setRent(true);
 						car.setDateDebut(dates.getBegin());
 						car.setDateFin(dates.getEnd());
@@ -79,13 +70,10 @@ public class CarRentalService {
 					car.setRent(false);
 					car.setDateDebut(null);
 					car.setDateFin(null);
+					
 				}
 			}
 		}
 	}
 }
-	/*@RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
-	public void rent(@PathVariable("plateNumber") String plateNumber, @RequestParam(value="rent",
-	required = true)boolean rent, @RequestBody Dates dates){
-	}*/
-
+	

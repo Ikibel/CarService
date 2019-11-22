@@ -24,6 +24,7 @@ public class Car {
 		this.brand = brand;
 		this.price = price;
 		this.numberOfSeats = numberOfSeats;
+		
 	}
 
 	public String getPlateNumber() {
